@@ -5,12 +5,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
 import { getFirestore, collection, addDoc, getDocs, Timestamp, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBhHaQUyDa567aU9K9UrKtwwRLZPr2VuL0",
-    authDomain: "malacka-a420d.firebaseapp.com",
-    projectId: "malacka-a420d",
-    storageBucket: "malacka-a420d.firebasestorage.app",
-    messagingSenderId: "111728081660",
-    appId: "1:111728081660:web:89cd12c797d03de904f579"
+    apiKey: "x",
+    authDomain: "x",
+    projectId: "x",
+    storageBucket: "xp",
+    messagingSenderId: "x",
+    appId: "x"
 }
 
 const app = initializeApp(firebaseConfig)
