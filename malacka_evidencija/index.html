@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close,delete,edit" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person_add,playlist_add" />
+    <title>Evidencija</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+</head>
+
+<body>
+    <section>
+        <div id="clanovi">
+            <h1 class="title">ČLANOVI</h1>
+            <button class="add" id="add-clan">
+                <span class="material-symbols-rounded">
+                    person_add
+                </span>
+            </button>
+            <label for="#search-clanovi">PRETRAGA PO IMENU</label>
+            <input autocomplete="off" type="text" class="search" id="search-clanovi">
+            <div class="legend">
+                <p class="l-ime">IME</p>
+                <p class="l-broj">BROJ IZLETA</p>
+            </div>
+            <div id="list-clanovi" class="content-display"></div>
+        </div>
+        <div id=" izleti">
+            <h1 class="title">IZLETI</h1>
+            <button class="add" id="add-izlet">
+                <span class="material-symbols-rounded">
+                    playlist_add
+                </span>
+            </button>
+            <label for="#search-izleti">PRETRAGA PO NAZIVU ILI DATUMU</label>
+            <input autocomplete="off" type="text" class="search" id="search-izleti">
+            <div class="legend">
+                <p class="l-naziv">NAZIV</p>
+                <p class="l-datum">DATUM</p>
+                <p class="l-broj">BROJ SUDIONIKA</p>
+            </div>
+            <div id="list-izleti" class="content-display"></div>
+        </div>
+        <div id="display-selected">
+            <div id="card-selected" class="content-display"></div>
+            <span id="cr"></script></span>
+        </div>
+    </section>
+    <div class="modal-container" id="modal-clan" style="display: none;">
+        <div class="modal">
+            <button class="close" id="close-clan">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+            <div class="content">
+                <label for="#input-ime">IME</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-ime">
+                <label for="#input-ime">PREZIME</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-prezime">
+                <label for="#input-rod">DATUM ROĐENJA</label>
+                <input autocomplete="off" type="date" class="date" id="input-rod">
+            </div>
+            <button class="confirm" id="confirm-clan">DODAJ</button>
+        </div>
+    </div>
+    <div class="modal-container" id="modal-clan-edit" style="display: none;">
+        <div class="modal">
+            <button class="close" id="close-clan-edit">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+            <div class="content">
+                <label for="#input-ime-edit">IME</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-ime-edit">
+                <label for="#input-ime-edit">PREZIME</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-prezime-edit">
+                <label for="#input-rod-edit">DATUM ROĐENJA</label>
+                <input autocomplete="off" type="date" class="date" id="input-rod-edit">
+            </div>
+            <button class="confirm" id="confirm-clan-edit">POTVRDI</button>
+            <button class="delete" id="delete-clan">
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="modal-container" id="modal-izlet" style="display: none;">
+        <div class="modal">
+            <button class="close" id="close-izlet">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+            <div class="content">
+                <label for="#input-naziv">NAZIV</label>
+                <input autocomplete="off" type="text" class="text-medium" id="input-naziv">
+                <label for="#input-vodic">GLAVNI VODIČ</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-vodic">
+                <label for="#input-datum">DATUM</label>
+                <input autocomplete="off" type="date" class="date" id="input-datum">
+            </div>
+            <button class="confirm" id="confirm-izlet">DODAJ</button>
+        </div>
+        <div class="sudionici">
+            <label for="#search-sudionici">SUDIONICI</label>
+            <input autocomplete="off" type="text" class="search" id="search-sudionici">
+            <ul id="sudionici">
+            </ul>
+        </div>
+    </div>
+    <div class="modal-container" id="modal-izlet-edit" style="display: none;">
+        <div class="modal">
+            <button class="close" id="close-izlet-edit">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+            <div class="content">
+                <label for="#input-naziv-edit">NAZIV</label>
+                <input autocomplete="off" type="text" class="text-medium" id="input-naziv-edit">
+                <label for="#input-vodic-edit">GLAVNI VODIČ</label>
+                <input autocomplete="off" type="text" class="text-short" id="input-vodic-edit">
+                <label for="#input-datum-edit">DATUM</label>
+                <input autocomplete="off" type="date" class="date" id="input-datum-edit">
+            </div>
+            <button class="confirm" id="confirm-izlet-edit">POTVRDI</button>
+            <button class="delete" id="delete-izlet">
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+            </button>
+        </div>
+        <div class="sudionici">
+            <label for="#search-sudionici-edit">SUDIONICI</label>
+            <input autocomplete="off" type="text" class="search" id="search-sudionici-edit">
+            <ul id="sudionici-edit">
+            </ul>
+        </div>
+    </div>
+    <script src="./script.js" type="module"></script>
+</body>
+
+</html>
