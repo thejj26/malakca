@@ -88,6 +88,10 @@ button>span {
     height: 76.5vh !important;
 }
 
+.clan:last-of-type, .izlet:last-of-type{
+    margin-bottom: 120px !important;
+}
+
 .clan,
 .izlet {
     background-color: #e6e6e6;

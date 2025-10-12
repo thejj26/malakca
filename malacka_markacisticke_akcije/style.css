@@ -88,10 +88,6 @@ button>span {
     height: 76.5vh !important;
 }
 
-.clan:last-of-type, .akcija:last-of-type{
-    margin-bottom: 120px !important;
-}
-
 .clan,
 .akcija {
     background-color: #e6e6e6;
@@ -198,6 +194,8 @@ section label {
         text-align: center;
         margin-bottom: 64px;
         font-size: 28px;
+        max-width: 80%;
+        margin: 0 auto;
     }
 
 }
@@ -258,6 +256,10 @@ section label {
     overflow: hidden;
     max-height: 100vh;
     height: 100vh;
+}
+
+.clan:last-of-type, .akcija:last-of-type{
+    margin-bottom: 120px !important;
 }
 
 .selected-akcije>span,

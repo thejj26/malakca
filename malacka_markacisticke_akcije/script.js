@@ -8,7 +8,7 @@ import key from '../key.js'
 const app = initializeApp(key)
 const db = getFirestore(app)
 const collection_clanovi = collection(db, "clanovi")
-const collection_akcije = collection(db, "akcije")
+const collection_akcije = collection(db, "m_akcije")
 
 //klase
 class Clan {
@@ -201,7 +201,7 @@ window.showSelectedClan = function (id) {
         <p>${new Date(selectedClan.rod).toLocaleDateString("de-DE")}</p>
     </div>
     <div class="selected-akcije">
-        <span>RADNE AKCIJE</span>
+        <span>MARKACISTIČE AKCIJE</span>
         <ul>${_akcije}</ul>
     </div>
     `
@@ -218,7 +218,7 @@ window.showSelectedAkcija = function (id) {
     <button class="edit-btn" onclick="editAkcija('${id}')">
     <span class="material-symbols-outlined">edit</span>
     </button>
-    <h2>ODABRANA RADNA AKCIJA</h2>
+    <h2>ODABRANA MARKACISTIČKA AKCIJA</h2>
      <div class="selected-id">
         <p>${selectedAkcija.id}</p>
     </div>

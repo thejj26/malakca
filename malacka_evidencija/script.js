@@ -3,17 +3,10 @@ let clanovi = [], izleti = [], _izlet = null, _clan = null
 //firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js"
 import { getFirestore, collection, addDoc, getDocs, Timestamp, deleteDoc, doc, updateDoc } from 'https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js'
+import key from '../key.js'
 
-const firebaseConfig = {
-    apiKey: "x",
-    authDomain: "x",
-    projectId: "x",
-    storageBucket: "x",
-    messagingSenderId: "x",
-    appId: "x"
-}
 
-const app = initializeApp(firebaseConfig)
+const app = initializeApp(key)
 const db = getFirestore(app)
 const collection_clanovi = collection(db, "clanovi")
 const collection_izleti = collection(db, "izleti")
