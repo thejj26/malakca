@@ -66,6 +66,7 @@ let searchSudionici = document.querySelector("#search-sudionici")
 let searchSudionici_edit = document.querySelector("#search-sudionici-edit")
 let ulSudionici = document.querySelector("#sudionici")
 let ulSudionici_edit = document.querySelector("#sudionici-edit")
+let btnPrint=document.querySelector("#btnPrint")
 
 //funckije (firebase)
 function formatClan(clan_obj) {
@@ -233,6 +234,8 @@ function filterIzleti(filter) {
 window.showSelectedClan = function (id) {
     let selectedClan = clanovi.filter(el => el.id == id)[0]
 
+    btnPrint.style.display="none"
+
     let _izleti = ""
     selectedClan.izleti.forEach(izlet => {
         _izleti += `<li class="selected iz" onclick="showSelectedIzlet('${izlet.id}')"><p>${izlet.naziv}</p><p>${new Date(izlet.datum).toLocaleDateString("de-DE")}</p></li>`
@@ -263,6 +266,9 @@ window.showSelectedClan = function (id) {
 
 window.showSelectedIzlet = function (id) {
     let selectedIzlet = izleti.filter(el => el.id == id)[0]
+    _izlet=selectedIzlet
+
+    btnPrint.style.display="block"
 
     let _sudionici = ""
     selectedIzlet.sudionici.forEach(sudionik => {
@@ -362,6 +368,31 @@ window.editIzlet = function (izlet) {
     document.querySelector("#delete-izlet").onclick = () => deleteIzlet(izlet)
 }
 
+//print funkcija
+function storePrintData(izlet) {
+
+    function formatHTML(list) {
+        let html = ''
+        list.forEach(el => {
+            html += `<li>${el[0]}</li>`
+        })
+        return html
+    }
+
+    const data = {
+        type: "IZLET",
+        title: izlet.naziv,
+        date: new Date(izlet.datum).toLocaleDateString("de-DE"),
+        desc: "",
+        html: formatHTML(izlet.sudionici)
+    }
+    
+    sessionStorage.clear()
+    sessionStorage.setItem("print", JSON.stringify(data))
+
+    window.open("../print_manager/print.html")
+}
+
 //run after loading
 getClanovi().then(() => {
     getIzleti().then(() => {
@@ -392,5 +423,7 @@ document.querySelector("#confirm-izlet").addEventListener("click", addIzlet)
 
 document.querySelector("#close-izlet-edit").addEventListener("click", () => { closeModal(modalIzlet_edit) })
 document.querySelector("#confirm-izlet-edit").addEventListener("click", () => updateIzlet(_izlet.id))
+
+btnPrint.addEventListener("click", ()=>storePrintData(_izlet))
 
 document.querySelector("#cr").innerHTML = `© ${new Date().getFullYear()} Jakov Jozić`

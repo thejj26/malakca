@@ -56,13 +56,13 @@ let akcijeDiv = document.querySelector("#list-akcije")
 let selectedDiv = document.querySelector("#card-selected")
 let searchClanovi = document.querySelector("#search-clanovi")
 let searchAkcije = document.querySelector("#search-akcije")
-let modalClan = document.querySelector("#modal-clan")
 let modalAkcija = document.querySelector("#modal-akcija")
 let modalAkcija_edit = document.querySelector("#modal-akcija-edit")
 let searchSudionici = document.querySelector("#search-sudionici")
 let searchSudionici_edit = document.querySelector("#search-sudionici-edit")
 let ulSudionici = document.querySelector("#sudionici")
 let ulSudionici_edit = document.querySelector("#sudionici-edit")
+let btnPrint = document.querySelector("#btnPrint")
 
 //funckije (firebase)
 function formatClan(clan_obj) {
@@ -182,6 +182,8 @@ function filterAkcije(filter) {
 window.showSelectedClan = function (id) {
     let selectedClan = clanovi.filter(el => el.id == id)[0]
 
+    btnPrint.style.display="none"
+
     let _akcije = ""
     selectedClan.akcije.forEach(akcija => {
         _akcije += `<li class="selected iz" onclick="showSelectedAkcija('${akcija.id}')"><p>${akcija.naziv}</p><p>${new Date(akcija.datum).toLocaleDateString("de-DE")}</p></li>`
@@ -209,6 +211,9 @@ window.showSelectedClan = function (id) {
 
 window.showSelectedAkcija = function (id) {
     let selectedAkcija = akcije.filter(el => el.id == id)[0]
+    _akcija = selectedAkcija
+
+    btnPrint.style.display="block"
 
     let _sudionici = ""
     selectedAkcija.sudionici.forEach(sudionik => {
@@ -298,6 +303,31 @@ window.editAkcija = function (akcija) {
     document.querySelector("#delete-akcija").onclick = () => deleteAkcija(akcija)
 }
 
+//print funkcija
+function storePrintData(akcija) {
+
+    function formatHTML(list) {
+        let html = ''
+        list.forEach(el => {
+            html += `<li>${el[0]}</li>`
+        })
+        return html
+    }
+
+    const data = {
+        type: "MARKACISTIČKA AKCIJA",
+        title: akcija.naziv,
+        date: new Date(akcija.datum).toLocaleDateString("de-DE"),
+        desc: akcija.opis,
+        html: formatHTML(akcija.sudionici)
+    }
+
+    sessionStorage.clear()
+    sessionStorage.setItem("print", JSON.stringify(data))
+
+    window.open("../print_manager/print.html")
+}
+
 //run after loading
 getClanovi().then(() => {
     getAkcije().then(() => {
@@ -321,5 +351,7 @@ document.querySelector("#confirm-akcija").addEventListener("click", addAkcija)
 
 document.querySelector("#close-akcija-edit").addEventListener("click", () => { closeModal(modalAkcija_edit) })
 document.querySelector("#confirm-akcija-edit").addEventListener("click", () => updateAkcija(_akcija.id))
+
+btnPrint.addEventListener("click", ()=>{storePrintData(_akcija)})
 
 document.querySelector("#cr").innerHTML = `© ${new Date().getFullYear()} Jakov Jozić`

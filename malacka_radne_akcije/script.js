@@ -56,13 +56,13 @@ let akcijeDiv = document.querySelector("#list-akcije")
 let selectedDiv = document.querySelector("#card-selected")
 let searchClanovi = document.querySelector("#search-clanovi")
 let searchAkcije = document.querySelector("#search-akcije")
-let modalClan = document.querySelector("#modal-clan")
 let modalAkcija = document.querySelector("#modal-akcija")
 let modalAkcija_edit = document.querySelector("#modal-akcija-edit")
 let searchSudionici = document.querySelector("#search-sudionici")
 let searchSudionici_edit = document.querySelector("#search-sudionici-edit")
 let ulSudionici = document.querySelector("#sudionici")
 let ulSudionici_edit = document.querySelector("#sudionici-edit")
+let btnPrint = document.querySelector("#btnPrint")
 
 //funckije (firebase)
 function formatClan(clan_obj) {
@@ -180,6 +180,8 @@ function filterAkcije(filter) {
 }
 
 window.showSelectedClan = function (id) {
+    btnPrint.style.display = "none"
+
     let selectedClan = clanovi.filter(el => el.id == id)[0]
 
     let _akcije = ""
@@ -208,7 +210,10 @@ window.showSelectedClan = function (id) {
 }
 
 window.showSelectedAkcija = function (id) {
+    btnPrint.style.display = "block"
+
     let selectedAkcija = akcije.filter(el => el.id == id)[0]
+    _akcija = selectedAkcija
 
     let _sudionici = ""
     selectedAkcija.sudionici.forEach(sudionik => {
@@ -298,6 +303,31 @@ window.editAkcija = function (akcija) {
     document.querySelector("#delete-akcija").onclick = () => deleteAkcija(akcija)
 }
 
+//print funkcija
+function storePrintData(akcija) {
+
+    function formatHTML(list) {
+        let html = ''
+        list.forEach(el => {
+            html += `<li>${el[0]}</li>`
+        })
+        return html
+    }
+
+    const data = {
+        type: "RADNA AKCIJA",
+        title: akcija.naziv,
+        date: new Date(akcija.datum).toLocaleDateString("de-DE"),
+        desc: akcija.opis,
+        html: formatHTML(akcija.sudionici)
+    }
+    
+    sessionStorage.clear()
+    sessionStorage.setItem("print", JSON.stringify(data))
+
+    window.open("../print_manager/print.html")
+}
+
 //run after loading
 getClanovi().then(() => {
     getAkcije().then(() => {
@@ -314,6 +344,7 @@ searchClanovi.addEventListener("input", () => filterClanovi(searchClanovi.value.
 searchAkcije.addEventListener("input", () => filterAkcije(searchAkcije.value.trim()))
 searchSudionici.addEventListener("input", () => filterSudionici(searchSudionici.value.trim()))
 searchSudionici_edit.addEventListener("input", () => filterSudionici_edit(searchSudionici_edit.value.trim()))
+btnPrint.addEventListener("click", () => { storePrintData(_akcija) })
 
 document.querySelector("#add-akcija").addEventListener("click", () => { openModal(modalAkcija) })
 document.querySelector("#close-akcija").addEventListener("click", () => { closeModal(modalAkcija) })

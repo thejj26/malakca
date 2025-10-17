@@ -488,3 +488,15 @@ textarea{
     outline: none;
     resize: none;
 }
+
+#btnPrint {
+    display: none;
+    border: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    padding: 6px 12px;
+    margin-top: 16px;
+    border-radius: 4px;
+}
